@@ -1,12 +1,11 @@
-# Express Note Taker
+# Express Notepad
  <b> Website:</b> &nbsp; [https://express-notepad-01132021.herokuapp.com/](https://express-notepad-01132021.herokuapp.com/)
  
   This is a simple note taking application which saves notes from a web page to a JSON file saved in a server side Node.js environment, running an Express web server. The client side of the application uses jQuery AJAX API calls to send and revieve the note content. 
   
-![express-note-taker-snip2](./public/assets/images/snip2.png)
+<img src="./public/assets/images/snip2.png" alt="app homepage" style="width: 500px"/>
 <br />
-  ![express-note-taker-snip](./public/assets/images/snip.png)
-
+<img src="./public/assets/images/snip.png" alt="note page" style="width: 500px"/>
   
   ## Table of Contents
   * [Installation](#Installation)
@@ -22,7 +21,7 @@
   To run the application, after installing required packages, prompt will begin by typing node app in the root directory of this project.
 
 ## Website
- Deployed to Heroku: https://express-note-taker-01132020.herokuapp.com/
+ Deployed to Heroku: https://express-notepad-01132021.herokuapp.com/
 
   ## Contributing
   Contributions are welcome. Submit a pull request or open an issue if you would like make improvements.
