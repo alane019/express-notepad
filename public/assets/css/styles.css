@@ -146,9 +146,10 @@ body {
 	}
 	.note-textarea {
 		font-size: x-large;
+		padding-left: 0.75rem;
+		padding-top: 1.25rem;
 	}
 	.list-container .list-group-item {
-		padding: 20px 12px !important;
-		padding-left: 7px;
+		padding: 12px 3px 12px 6px !important;
 	}
 }
