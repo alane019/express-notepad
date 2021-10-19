@@ -1,0 +1,15 @@
+{
+  "name": "express-note-taker",
+  "version": "1.0.0",
+  "description": "Note taking utility made with Express and Node",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adam Lane and Trilogy Education",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
