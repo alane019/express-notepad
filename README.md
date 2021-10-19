@@ -4,7 +4,7 @@
   This is a simple note taking application which saves notes from a web page to a JSON file saved in a server side Node.js environment, running an Express web server. The client side of the application uses jQuery AJAX API calls to send and revieve the note content. 
   
 ![express-note-taker-snip2](./public/assets/images/snip2.png)
-
+<br />
   ![express-note-taker-snip](./public/assets/images/snip.png)
 
   
