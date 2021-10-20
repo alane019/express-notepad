@@ -3,7 +3,6 @@ const path = require("path");
 const dbDir = path.resolve(__dirname, "../db");
 let notes = [];
 
-
 module.exports = function(app){ 
 	let notes = [];
 	// serve url routes for client-side js file
@@ -22,13 +21,10 @@ module.exports = function(app){
 		let notes = fs.readFileSync(path.resolve(dbDir, "db.json"), "utf8");
 		notes = JSON.parse(notes);
 
-		console.log(notes);
-
-
 		let nextNoteId = 1; 
 		notes.forEach(note => {
-			note.id = noteId;
-			i++;
+			note.id = nextNoteId;
+			nextNoteId++;
 		});
 
 		let newNote = req.body;
@@ -51,8 +47,6 @@ module.exports = function(app){
 		for (const [index,element] of notes.entries()){
 			if(element.id == req.params.id){
 				removedNote = notes.splice(index,1);
-				console.log("\n Removed note: ");
-				console.log(removedNote);
 				break; 
 			}
 		};
@@ -65,19 +59,14 @@ module.exports = function(app){
 
 	//update an existing note
 	// EDIT note
-	app.patch("/api/notes/:index", (req, res) => {
-
+	app.patch("/api/notes/", function (req, res) {
 		let notes = fs.readFileSync(path.resolve(dbDir, "db.json"), "utf8");
 		notes = JSON.parse(notes);
-
+		let note = req.body;
 		for (const [index,element] of notes.entries()){
-			if(element.id == req.params.id){
-				//removedNote = notes.splice(index,1);
-			  console.log("Note before update: ", notes[index])
-			  notes[index].title = req.params.updatedNote.title;
-			  notes[index].text = req.params.updatedNote.text;
-
-			  console.log("\n Updated note: ", notes[index])
+			if(element.id == note.id){
+			  notes[index].title = note.title;
+			  notes[index].text = note.text;
 			  break; 
 			}
 		};

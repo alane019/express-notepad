@@ -33,55 +33,53 @@ const deleteNote = (id) => {
 };
 
 // A function for deleting a note from the db
-const updateNote = (id) => {
-
-	let noteUpdateData = {
-		title: activeNote.title,
-		text: activeNote.text
-	};
-
+const updateNote = (note) => {
+	let id = activeNote.id;	
 	return $.ajax({
-		url: "api/notes/" + id,
-		method: "PATCH",
-		data: noteUpdateData
+		url: "api/notes/",
+		data: note
+		,
+		method: 'PATCH'
 	});
 };
 
 // If there is an activeNote, display it, otherwise render empty inputs
-const renderActiveNote = () => {
+const renderActiveNote = (selectedNote = activeNote) => {
 	$saveNoteBtn.hide();
 
 	$noteTitle.attr("readonly", false);
 	$noteText.attr("readonly", false);
 
 	if (activeNote.id) {
-		$noteTitle.val(activeNote.title);
-		$noteText.val(activeNote.text);
+		$noteTitle.val(selectedNote.title);
+		$noteText.val(selectedNote.text);
 	} else {
 		$noteTitle.val("");
 		$noteText.val("");
 	}
-	console.log("activeNote ( id:" + activeNote.id + ") " + activeNote.title + " - " + activeNote.text);
 };
 
 // Get the note data from the inputs, save it to the db and update the view
 const handleNoteSave = function () {
-	const noteToSave = {
-		title: $noteTitle.val(),
-		text: $noteText.val(),
+	let noteTitle = $noteTitle.val();
+	let noteText =  $noteText.val();
+	let noteToSave = {
+		title: noteTitle,
+		text: noteText
 	};
-
-	console.log(noteToSave);
-
-
-	activeNote.id ? console.log("true").then( updateNote(activeNote.id)) : () => {
-		saveNewNote(noteToSave).then(() => {
+	 let handleNewNote = function() {saveNewNote(noteToSave).then(() => {
 			getAndRenderNotes();
 			renderActiveNote();
-		})
+		});
+	}	
+	let handleExistingNote = function() { 
+		noteToSave.id = activeNote.id;
+		updateNote(noteToSave).then(() => {
+			getAndRenderNotes();
+			renderActiveNote();
+		});
 	}
-	
-	
+	activeNote.id ? handleExistingNote() : handleNewNote();
 };
 
 
@@ -111,7 +109,6 @@ const handleNewNoteView = function () {
 		activeNote = {};
 		renderActiveNote();
 	}
-	
 	let checkForUpdates = function(){
 		if(activeNote.text != $noteText.val()){
 			if (window.confirm(`You have unsaved changes.
