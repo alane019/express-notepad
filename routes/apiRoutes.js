@@ -8,6 +8,7 @@ module.exports = function(app){
 	let notes = [];
 	// serve url routes for client-side js file
 	// following convention: api in url path for json files
+	// VIEW notes
 	app.get("/api/notes", function(req, res) {
 
 		notes = fs.readFileSync(path.resolve(dbDir, "db.json"), "utf8");
@@ -15,38 +16,25 @@ module.exports = function(app){
 		return res.json(notes); 
 	});
 
-	// save notes
-	app.post("/api/notes", function(req, res) {
+
+	// SAVE new note
+	app.post("/api/notes", (req, res) => {
 		let notes = fs.readFileSync(path.resolve(dbDir, "db.json"), "utf8");
 		notes = JSON.parse(notes);
 
-		console.log("\n");
 		console.log(notes);
-		console.log("\n");
 
-		var i = 1; 
-		notes.forEach(function(note){
-			note.id = i;
+
+		let nextNoteId = 1; 
+		notes.forEach(note => {
+			note.id = noteId;
 			i++;
 		});
-		console.log("\n");
+
 		let newNote = req.body;
-		console.log(newNote);
-		console.log("\n");
-
-		newNote.id = i;
+		newNote.id = nextNoteId;
 		notes.push(newNote);
-
-		console.log("\n");
-		console.log(notes);
-		console.log("\n");
-
 		notes = JSON.stringify(notes);
-
-		console.log("\n");
-		console.log("after JSON.stringify: ");
-		console.log(notes);
-		console.log("\n");
 
 		fs.writeFile(path.resolve(dbDir, "db.json"), notes, function(err){
 			if(err) throw err;
@@ -55,62 +43,52 @@ module.exports = function(app){
 		// save button writes note object values to json storage object, and also renders values to html display
 	});
 
-	// delete notes
+	// DELETE notes
 	app.delete("/api/notes/:id", function(req, res) {
-
 		let notes = fs.readFileSync(path.resolve(dbDir, "db.json"), "utf8");
 		notes = JSON.parse(notes);
-
-		console.log("\n");
-		console.log("Notes array before deletion: ");
-		console.log("\n");
-		console.log(notes);
-		console.log("\n");
-
-		console.log("\n");
-		console.log("req.params.id: ");
-		console.log("\n");
-		console.log(req.params.id);
-		console.log("\n");
-
 		//check each object in array and delete if id matches request note id;
 		for (const [index,element] of notes.entries()){
 			if(element.id == req.params.id){
 				removedNote = notes.splice(index,1);
-
-				console.log("\n");
-				console.log("Removed note: ");
-				console.log("\n");
+				console.log("\n Removed note: ");
 				console.log(removedNote);
-				console.log("\n");
-
 				break; 
 			}
 		};
-
-			console.log("\n");
-			console.log("Updated notes array: ");
-			console.log("\n");
-			console.log(notes);
-			console.log("\n");
-
-
 			notes = JSON.stringify(notes);
-
-			console.log("\n");
-			console.log("After JSON.stringify: ");
-			console.log(notes);
-			console.log("\n");
-
 			fs.writeFile(path.resolve(dbDir, "db.json"), notes, function(err){
 				if(err) throw err;
 			});
-
 			res.json(JSON.parse(notes));
-
 	}); 
 
 	//update an existing note
-	
+	// EDIT note
+	app.patch("/api/notes/:index", (req, res) => {
+
+		let notes = fs.readFileSync(path.resolve(dbDir, "db.json"), "utf8");
+		notes = JSON.parse(notes);
+
+		for (const [index,element] of notes.entries()){
+			if(element.id == req.params.id){
+				//removedNote = notes.splice(index,1);
+			  console.log("Note before update: ", notes[index])
+			  notes[index].title = req.params.updatedNote.title;
+			  notes[index].text = req.params.updatedNote.text;
+
+			  console.log("\n Updated note: ", notes[index])
+			  break; 
+			}
+		};
+		// prep array of objects for write to JSON file
+		notes = JSON.stringify(notes);
+		// write updated notes object array to JSON file w/ node function
+		fs.writeFile(path.resolve(dbDir, "db.json"), notes, function(err){
+			if(err) throw err;
+		});
+		// return notes to client in JSON format format to render to page.
+		res.json(JSON.parse(notes));
+	});
 
 }

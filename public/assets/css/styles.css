@@ -82,11 +82,11 @@ body {
 }
 
 body {
-	background-image: url("../images/notepad.jpg");
+	background-color: snow;
 }
 
 .col-8 {
-	background-image: url("../images/notepad.jpg");
+	background-color: snow;
 }
 
 .col-8 * {
