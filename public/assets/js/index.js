@@ -110,13 +110,15 @@ const handleNewNoteView = function () {
 	}
 	let checkForUpdates = function(){
 		if(activeNote.text != $noteText.val()){
-			if (window.confirm(`You have unsaved changes.
-			Select cancel to leave note and discard changes.`)) {
+			//if browser blocks window.confirm dialog box, false is 
+			// selected selected automatically. 
+			if (window.confirm("You have unsaved changes. " +
+			"Select cancel to discard changes.")) {
 				return null;
 			}
-		}
-		else{
-			resetRenderActiveNote();
+			else{
+				resetRenderActiveNote();
+			}
 		}
 	}
 	activeNote.id ? checkForUpdates(): resetRenderActiveNote();
