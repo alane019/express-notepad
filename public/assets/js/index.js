@@ -16,7 +16,7 @@ const getNotes = () => {
 };
 
 // A function for saving a note to the db
-const saveNewNote = (note) => {
+const createNote = (note) => {
 	return $.ajax({
 		url: "/api/notes",
 		data: note,
@@ -34,25 +34,24 @@ const deleteNote = (id) => {
 
 // A function for deleting a note from the db
 const updateNote = (note) => {
-	let id = activeNote.id;	
+	// let id = activeNote.id;	
 	return $.ajax({
 		url: "api/notes/",
-		data: note
-		,
+		data: note,
 		method: 'PATCH'
 	});
 };
 
 // If there is an activeNote, display it, otherwise render empty inputs
-const renderActiveNote = (selectedNote = activeNote) => {
+const renderActiveNote = () => {
 	$saveNoteBtn.hide();
-
+	
 	$noteTitle.attr("readonly", false);
 	$noteText.attr("readonly", false);
 
 	if (activeNote.id) {
-		$noteTitle.val(selectedNote.title);
-		$noteText.val(selectedNote.text);
+		$noteTitle.val(activeNote.title);
+		$noteText.val(activeNote.text);
 	} else {
 		$noteTitle.val("");
 		$noteText.val("");
@@ -67,19 +66,19 @@ const handleNoteSave = function () {
 		title: noteTitle,
 		text: noteText
 	};
-	 let handleNewNote = function() {saveNewNote(noteToSave).then(() => {
+	 let saveNewNote = function() {createNote(noteToSave).then(() => {
 			getAndRenderNotes();
 			renderActiveNote();
 		});
 	}	
-	let handleExistingNote = function() { 
+	let saveExistingNote = function() { 
 		noteToSave.id = activeNote.id;
 		updateNote(noteToSave).then(() => {
 			getAndRenderNotes();
-			renderActiveNote();
+			$saveNoteBtn.hide();
 		});
 	}
-	activeNote.id ? handleExistingNote() : handleNewNote();
+	activeNote.id  ?  saveExistingNote() : saveNewNote();
 };
 
 

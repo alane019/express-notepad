@@ -135,6 +135,19 @@ body {
 	background: darkgrey;
 }
 
+
+.fa-plus{
+	margin-left: 6rem;
+	
+}
+
+.fa-save{
+	background-color: rgb(0, 213, 121);
+	padding: 4px 6px 4px 4px;
+	border-radius: 4px;
+	border: forestgreen solid 1px;
+}
+
 /* --- Media query for mobile browsers --- */
 @media (max-width: 600px) {
 	.col-4,
