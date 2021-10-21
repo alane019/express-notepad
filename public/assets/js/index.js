@@ -110,8 +110,9 @@ const handleNewNoteView = function () {
 	}
 	let checkForUpdates = function(){
 		if(activeNote.text != $noteText.val()){
-			//if browser blocks window.confirm dialog box, false is 
-			// selected selected automatically. 
+			// If browser is not able to display or get a user response
+			// from a window.confirm dialog box, false is selected automatically. 
+			// https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-confirm-dev
 			if (window.confirm("You have unsaved changes. " +
 			"Select cancel to discard changes.")) {
 				return null;
