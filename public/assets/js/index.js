@@ -117,10 +117,8 @@ const handleNewNoteView = function () {
 			"Select cancel to discard changes.")) {
 				return null;
 			}
-			else{
-				resetRenderActiveNote();
-			}
 		}
+    	resetRenderActiveNote();
 	}
 	activeNote.id ? checkForUpdates(): resetRenderActiveNote();
 };
